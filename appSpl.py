@@ -3,7 +3,7 @@ import numpy as np
 import joblib
 
 # Load the pre-trained model
-model = joblib.load("model_clean.pkl")
+model = joblib.load("model_default.pkl")
 
 # Streamlit configuration
 st.set_page_config(
