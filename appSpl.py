@@ -2,19 +2,16 @@ import streamlit as st
 import numpy as np
 import joblib
 
-# Load the pre-trained model
-model = joblib.load("model_rf_standard.pkl")
+model = joblib.load("model_default.pkl")
 
-best_model_name = "Balanced Random Forest"
+best_model_name = "Random Forest"
 
-# Streamlit configuration
 st.set_page_config(
     page_title="Loan Approval Assessment",
     page_icon="💳",
     layout="wide"
 )
 
-# --- Custom CSS: Reduce empty space, tighten layout ---
 st.markdown("""
     <style>
     body, .stApp {
@@ -137,7 +134,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- Main Card Container with Improved Layout ---
 st.markdown(
     """
     <div class="main-card" style="max-width: 820px; margin: 0 auto; display: flex; gap: 1em;">
@@ -175,7 +171,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# --- Form Layout: 3 columns for better grouping ---
 with st.form("loan_form", clear_on_submit=False):
     col1, col2, col3 = st.columns([1.1, 1.1, 1], gap="large")
 
@@ -258,15 +253,11 @@ with st.form("loan_form", clear_on_submit=False):
             step=1,
             help="Number of late payments in the past year"
         )
-        # Remove loan_to_income and debt_to_income display from here
 
-    # --- Predict Button ---
     submitted = st.form_submit_button("Assess Application", use_container_width=True)
 
 st.markdown("</div></div>", unsafe_allow_html=True)
 
-# --- Feature Engineering and Encoding ---
-# Calculate ratios here for use in both model and output
 loan_to_income = loan / (income + 1)
 debt_to_income = existing_loans * loan / (income + 1)
 
@@ -288,33 +279,32 @@ purpose_home = 1 if purpose == "Home" else 0
 purpose_personal = 1 if purpose == "Personal" else 0
 
 input_data = np.array([[ 
-    age,                    # 1. Age
-    income,                 # 2. AnnualIncome
-    loan,                   # 3. LoanAmountRequested
-    credit_score,           # 4. CreditScore
-    existing_loans,         # 5. ExistingLoansCount
-    late_payments,          # 6. LatePaymentsLastYear
-    loan_to_income,         # 7. Loan_to_Income
-    debt_to_income,         # 8. Debt_to_Income
-    gender_male,            # 9. Gender_Male
-    marital_married,        # 10. MaritalStatus_Married
-    marital_single,         # 11. MaritalStatus_Single
-    marital_widowed,        # 12. MaritalStatus_Widowed
-    edu_high_school,        # 13. EducationLevel_High School
-    edu_master,             # 14. EducationLevel_Master
-    edu_other,              # 15. EducationLevel_Other
-    edu_phd,                # 16. EducationLevel_PhD
-    emp_retired,            # 17. EmploymentStatus_Retired
-    emp_self_employed,      # 18. EmploymentStatus_Self-employed
-    emp_student,            # 19. EmploymentStatus_Student
-    emp_unemployed,         # 20. EmploymentStatus_Unemployed
-    purpose_car,            # 21. PurposeOfLoan_Car
-    purpose_education,      # 22. PurposeOfLoan_Education
-    purpose_home,           # 23. PurposeOfLoan_Home
-    purpose_personal        # 24. PurposeOfLoan_Personal
+    age,                   
+    income,                
+    loan,                  
+    credit_score,       
+    existing_loans,       
+    late_payments,       
+    loan_to_income,       
+    debt_to_income,        
+    gender_male,           
+    marital_married,        
+    marital_single,        
+    marital_widowed,      
+    edu_high_school,       
+    edu_master,          
+    edu_other,         
+    edu_phd,               
+    emp_retired,         
+    emp_self_employed,   
+    emp_student,            
+    emp_unemployed,         
+    purpose_car,          
+    purpose_education,      
+    purpose_home,           
+    purpose_personal        
 ]])
 
-# --- Prediction Logic and Results Card ---
 if submitted:
     try:
         expected_features = [
@@ -333,7 +323,6 @@ if submitted:
         pred = model.predict(input_data)[0]
         conf = model.predict_proba(input_data)[0][pred]
 
-        # --- Results Card ---
         st.markdown(
             f"""
             <div class="result-card" style="background: linear-gradient(120deg, #23244a 60%, #2d2e5e 100%); border-radius: 1.1em; box-shadow: 0 4px 18px #18193a44; padding: 2.1em 1.7em 1.5em 1.7em; margin: 1.5em auto 0 auto; max-width: 420px;">
@@ -385,7 +374,6 @@ if submitted:
         st.error(f"Prediction failed: {str(e)}")
         st.info("This error may occur if the model expects a different feature set. Please ensure all required fields are completed.")
 
-# --- Footer ---
 st.markdown(
     "<div class='footer'>© 2025 Loan Approval Assessment | Powered by Streamlit</div>",
     unsafe_allow_html=True
