@@ -3,7 +3,7 @@ import numpy as np
 import joblib
 
 # Load the pre-trained model
-model = joblib.load("model_default.pkl")
+model = joblib.load("model_rf_standard.pkl")
 
 best_model_name = "Balanced Random Forest"
 
