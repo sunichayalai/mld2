@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import joblib
 
-model = joblib.load("model_clean.pkl")
+model = joblib.load("model_default.pkl")
 
 # You can update this with your actual best model's metrics
 best_model_name = "Balanced Random Forest"
