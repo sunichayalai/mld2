@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import joblib
 
-model_default = joblib.load("model.pkl")
+model = joblib.load("model.pkl")
 
 # You can update this with your actual best model's metrics
 best_model_name = "Balanced Random Forest"
@@ -117,7 +117,7 @@ if st.button("📊 Predict Loan Outcome"):
 
         # Use all loaded models for prediction
         models = [
-            ("Default Model", model_default),
+            ("Default Model", model),
         ]
 
         results = []
