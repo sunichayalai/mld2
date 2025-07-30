@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import joblib
+from imblearn.ensemble import BalancedRandomForestClassifier
 
 model = joblib.load("model_clean.pkl")
 
