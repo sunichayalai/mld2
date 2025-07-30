@@ -5,6 +5,8 @@ import joblib
 # Load the pre-trained model
 model = joblib.load("model_default.pkl")
 
+best_model_name = "Balanced Random Forest"
+
 # Streamlit configuration
 st.set_page_config(
     page_title="Loan Approval Assessment",
